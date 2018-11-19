@@ -53,7 +53,6 @@ public class TestECPBikeSharing {
                 () -> assertFalse(brs.verifyCredit(2)) //Utilizador não existente
         );
 
-
         //Verificação se retorna true ao verificar se um utilizador tem créditos suficientes
         assertTrue(brs.verifyCredit(0));
     }
