@@ -3,8 +3,7 @@ import Models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBVABikeSharing {
 
@@ -102,6 +101,6 @@ public class TestBVABikeSharing {
 
         /* assertEquals(1,brs.bicycleRentalFee(2,0,1,-1),"Expected = 1, Actual = " +brs.bicycleRentalFee(2,0,1,-1)); */ //Test Case #9 Failed
 
-        /* assertEquals(0,brs.bicycleRentalFee(2,0,1,0),"Expected = 0, Actual = " +brs.bicycleRentalFee(2,0,1,0)); */ //Test Case #10 Passed
+        assertEquals(0, brs.bicycleRentalFee(2, 0, 1, 0), "Expected = 0, Actual = " + brs.bicycleRentalFee(2, 0, 1, 0));  //Test Case #10 Passed
     }
 }
