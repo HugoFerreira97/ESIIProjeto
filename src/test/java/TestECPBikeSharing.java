@@ -158,7 +158,6 @@ public class TestECPBikeSharing {
                 () -> assertEquals(-1, brs.getBicycle(2, 1, 0), "2. Expected = -1, Actual = " + brs.getBicycle(2, 1, 0))); //Test Case #5 Failed
     }
 
-
 }
 
 
