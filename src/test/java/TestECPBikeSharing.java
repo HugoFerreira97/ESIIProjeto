@@ -1,7 +1,5 @@
 import Exceptions.UserAlreadyExists;
 import Exceptions.UserDoesNotExists;
-import Models.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,41 +8,46 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestECPBikeSharing {
     BikeRentalSystem brs;
 
-    @BeforeAll
-    public static void initAll() {
-        System.out.println("Unit Tests: ");
-    }
-
     @BeforeEach
     public void setUp() throws UserAlreadyExists {
-        //Inicialização do sistema de aluguer de bicicletas
+        //Inicialização do BikeRentalSystem com rentalFee=1
         brs = new BikeRentalSystem(1);
 
-        //Adição de um Utilizador com id = 0
+        //Adição de um User com id=0
         brs.registerUser(0, "Hugo", 1);
 
-        //Adição de um Lock com id = 0 e um Deposit com id = 0
+        //Adição de um Lock com id=0 e um Deposit com id=0
         brs.addLock(0, 0);
 
-        //Adição de uma Bicicleta com id = 0
+        //Adição de uma Bicycle com id=0
         brs.addBicycle(0, 0, 0);
     }
 
     @Test
     public void testRegisterUser() {
-        //Verificar se a excepção é lançada
+        //Verificação se a excepção é lançada ao adicionar utilizador com id repetido
         assertThrows(UserAlreadyExists.class, () -> {
-            brs.registerUser(0, "Hugo", 1);
-        }, "Should Throw Exception: UserAlreadyExists"); //O teste é válido, pois o utilizador já existe com o id 0
+            brs.registerUser(0, "João", 1);
+        }, "Should Throw Exception: UserAlreadyExists");         // Test Case #1 Passed
+
+    }
+
+    @Test
+    public void testAddCredit() {
+        //Adição um crédito ao utilizador com id=0
+        brs.addCredit(0, 1);
+
+        //Verificação se o crédito foi adicionado com sucesso
+        assertEquals(1, brs.getUsers().get(0).getCredit(), "Expected = 1, Actual = " + brs.getUsers().get(0).getCredit());        //Test Case #1 Passed
 
     }
 
     @Test
     public void testVerifyCredit() throws UserAlreadyExists {
-        //Adiciona um crédito ao utilizador com IDUser = 0
+        //Adição de um crédito ao utilizador com id=0
         brs.addCredit(0, 1);
 
-        //Adiciona mais um utilizador sem créditos
+        //Adição mais um utilizador sem créditos
         brs.registerUser(1, "João", 2);
 
         //Verificação se retorna false ao verificar se é possivel adicionar créditos a um utilizador não existente na lista de utilziadores ou se um utlizador não tem creditos
@@ -55,18 +58,7 @@ public class TestECPBikeSharing {
 
         //Verificação se retorna true ao verificar se um utilizador tem créditos suficientes
         assertTrue(brs.verifyCredit(0));
-    }
 
-    @Test
-    public void testAddCredit() {
-        //Utilizador com id = 0 em que é inserido créditos
-        User u = brs.getUsers().get(0);
-
-        //Aiciona um crédito ao utilizador com IDUser = 0
-        brs.addCredit(0, 1);
-
-        //Verificação se o crédito foi adicionado com sucesso
-        assertEquals(1, u.getCredit(), "Expected = 1, Actual = " + u.getCredit());
     }
 
     @Test
