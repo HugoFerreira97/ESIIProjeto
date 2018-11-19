@@ -1,10 +1,10 @@
 import Exceptions.UserAlreadyExists;
+import Exceptions.UserDoesNotExists;
 import Models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBVABikeSharing {
 
@@ -64,9 +64,9 @@ public class TestBVABikeSharing {
 
         /* brs.addCredit(0, 2);
         assertEquals(2, u.getCredit(), "Expected = 2, Actual = " + u.getCredit()); */ //Test Case #5 Passed
-
     }
 
+    @Test
     public void testVerifyCredit() throws UserAlreadyExists {
         //Registar um utilizador com id=0 e outro com id=1
         brs.registerUser(0, "Hugo", 1);
@@ -79,30 +79,51 @@ public class TestBVABikeSharing {
         assertFalse(brs.verifyCredit(-1)); //Test #1 Passed
         assertTrue(brs.verifyCredit(0)); // Test #2 Passed
         assertTrue(brs.verifyCredit(1)); // Test #3 Passed
-        //ola
     }
 
     @Test
     public void testBicycleRentalFee() {
 
-        /* assertEquals(0,brs.bicycleRentalFee(0,0,1,1),"Expected = 0, Actual = " +brs.bicycleRentalFee(0,0,1,1)); */ //Test Case #1 Passed
+        /* assertEquals(0,brs.bicycleRentalFee(0,0,1,1),"Expected = 0, Actual = " + brs.bicycleRentalFee(0,0,1,1)); */ //Test Case #1 Passed
 
-        /* assertEquals(1,brs.bicycleRentalFee(1,0,1,1),"Expected = 1, Actual = " +brs.bicycleRentalFee(1,0,1,1)); */ //Test Case #2 Passed
+        /* assertEquals(1,brs.bicycleRentalFee(1,0,1,1),"Expected = 1, Actual = " + brs.bicycleRentalFee(1,0,1,1)); */ //Test Case #2 Passed
 
-        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,1),"Expected = 1, Actual = " +brs.bicycleRentalFee(2,0,1,1)); */ //Test Case #3 Passed
+        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,1),"Expected = 1, Actual = " + brs.bicycleRentalFee(2,0,1,1)); */ //Test Case #3 Passed
 
-        /* assertEquals(0,brs.bicycleRentalFee(3,0,1,1),"Expected = 0, Actual = " +brs.bicycleRentalFee(3,0,1,1)); */ //Test Case #4 Passed
+        /* assertEquals(0,brs.bicycleRentalFee(3,0,1,1),"Expected = 0, Actual = " + brs.bicycleRentalFee(3,0,1,1)); */ //Test Case #4 Passed
 
-        /* assertEquals(2,brs.bicycleRentalFee(2,-1,1,1),"Expected = 2, Actual = " +brs.bicycleRentalFee(2,-1,1,1)); */ //Test Case #5 Failed
+        /* assertEquals(2,brs.bicycleRentalFee(2,-1,1,1),"Expected = 2, Actual = " + brs.bicycleRentalFee(2,-1,1,1)); */ //Test Case #5 Failed
 
-        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,1),"Expected = 1, Actual = " +brs.bicycleRentalFee(2,0,1,1)); */ //Test Case #6 Passed
+        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,1),"Expected = 1, Actual = " + brs.bicycleRentalFee(2,0,1,1)); */ //Test Case #6 Passed
 
-        /* assertEquals(-1,brs.bicycleRentalFee(2,0,-1,1),"Expected = -1, Actual = " +brs.bicycleRentalFee(2,0,-1,1)); */ //Test Case #7 Failed
+        /* assertEquals(-1,brs.bicycleRentalFee(2,0,-1,1),"Expected = -1, Actual = " + brs.bicycleRentalFee(2,0,-1,1)); */ //Test Case #7 Failed
 
-        /* assertEquals(0,brs.bicycleRentalFee(2,0,0,1),"Expected = 0, Actual = " +brs.bicycleRentalFee(2,0,0,1)); */ //Test Case #8 Passed
+        /* assertEquals(0,brs.bicycleRentalFee(2,0,0,1),"Expected = 0, Actual = " + brs.bicycleRentalFee(2,0,0,1)); */ //Test Case #8 Passed
 
-        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,-1),"Expected = 1, Actual = " +brs.bicycleRentalFee(2,0,1,-1)); */ //Test Case #9 Failed
+        /* assertEquals(1,brs.bicycleRentalFee(2,0,1,-1),"Expected = 1, Actual = " + brs.bicycleRentalFee(2,0,1,-1)); */ //Test Case #9 Failed
 
-        /* assertEquals(0,brs.bicycleRentalFee(2,0,1,0),"Expected = 0, Actual = " +brs.bicycleRentalFee(2,0,1,0)); */ //Test Case #10 Passed
+        /* assertEquals(0,brs.bicycleRentalFee(2,0,1,0),"Expected = 0, Actual = " + brs.bicycleRentalFee(2,0,1,0)); */ //Test Case #10 Passed
+    }
+
+    @Test
+    public void testReturnBicycle() throws UserAlreadyExists, UserDoesNotExists {
+        brs.registerUser(0, "Hugo", 1);
+        brs.addCredit(0, 2);
+        brs.addLock(1, 1);
+        brs.addBicycle(1, 1, 0);
+        brs.getBicycle(1, 0, 0);
+
+        brs.registerUser(1, "Hugo", 1);
+        brs.addCredit(1, 2);
+        brs.addLock(2, 2);
+        brs.addBicycle(2, 2, 1);
+        brs.getBicycle(2, 1, 0);
+
+        assertEquals(-1, brs.returnBicycle(1, -1, 1)); //Test Case #1 Passed
+        assertEquals(1, brs.returnBicycle(1, 0, 1)); //Test Case #2 Passed
+        assertEquals(1, brs.returnBicycle(1, 1, 1));//Test Case #3 Failed
+        assertEquals(-1, brs.returnBicycle(0, 0, 1));//Test Case #4 Passed
+        assertEquals(1, brs.returnBicycle(2, 0, 1));//Test Case #5 Failed
+        assertEquals(1, brs.returnBicycle(1, 0, -1));//Test Case #6 Passed
     }
 }
