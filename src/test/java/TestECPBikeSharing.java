@@ -47,11 +47,11 @@ public class TestECPBikeSharing {
         //Adição de um crédito ao utilizador com id=0
         brs.addCredit(0, 1);
 
-        //Adição mais um utilizador sem créditos
+        //Adição de mais um utilizador sem créditos
         brs.registerUser(1, "João", 2);
 
-        //Verificação se retorna false ao verificar se é possivel adicionar créditos a um utilizador não existente na lista de utilziadores ou se um utlizador não tem creditos
-        assertAll("Should return False if user in IDUser = 2 does not exist or there's no credits in IDUser = 1",
+        //Verificação se retorna false ao verificar se é possivel adicionar créditos a um utilizador não existente na lista de utilziadores ou se um utlizador não tem créditos
+        assertAll("Should return false if User does not exist or there's no credits in User",
                 () -> assertFalse(brs.verifyCredit(1)), //Utilizador sem créditos
                 () -> assertFalse(brs.verifyCredit(2)) //Utilizador não existente
         );
