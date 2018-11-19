@@ -32,7 +32,7 @@ public class TestECPBikeSharing {
 
     @Test
     public void testRegisterUser() {
-        //Verificar se a excepção é lançada com id = 0
+        //Verificar se a excepção é lançada
         assertThrows(UserAlreadyExists.class, () -> {
             brs.registerUser(0, "Hugo", 1);
         }, "Should Throw Exception: UserAlreadyExists"); //O teste é válido, pois o utilizador já existe com o id 0
@@ -49,8 +49,8 @@ public class TestECPBikeSharing {
 
         //Verificação se retorna false ao verificar se é possivel adicionar créditos a um utilizador não existente na lista de utilziadores ou se um utlizador não tem creditos
         assertAll("Should return False if user in IDUser = 2 does not exist or there's no credits in IDUser = 1",
-                () -> assertFalse(brs.verifyCredit(1)),
-                () -> assertFalse(brs.verifyCredit(2))
+                () -> assertFalse(brs.verifyCredit(1)), //Utilizador sem créditos
+                () -> assertFalse(brs.verifyCredit(2)) //Utilizador não existente
         );
 
 
